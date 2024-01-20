@@ -53,6 +53,16 @@ vim.keymap.set("n", "<leader>f", function()
     vim.lsp.buf.format()
 end)
 
+-- Run LSP to auto format highlighted
+vim.keymap.set("v", "<leader>f", function()
+    vim.lsp.buf.format({
+        range = {
+            ["start"] = vim.api.nvim_buf_get_mark(0, "<"),
+            ["end"] = vim.api.nvim_buf_get_mark(0, ">"),
+        }
+    })
+end)
+
 -- Navigation with QuickFix Lists
 -- https://freshman.tech/vim-quickfix-and-location-list/
 vim.keymap.set("i", "<C-k>", "<cmd>cnext<CR>zz")
@@ -73,4 +83,8 @@ vim.keymap.set("n", "<leader>vsp", function()
     vim.opt.splitright = false
 end)
 
+-- Run Go on main
 vim.keymap.set("n", "<leader><leader>go", "<cmd>!go run main.go<CR>")
+
+-- Clear highlighted
+vim.keymap.set("n", "<leader>h", "<cmd>noh<CR>")

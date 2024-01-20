@@ -2,10 +2,6 @@ local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
 
--- Fix vim warning
-local lua_opts = lsp.nvim_lua_ls()
-require('lspconfig').lua_ls.setup(lua_opts)
-
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 cmp.setup({
@@ -50,14 +46,28 @@ lsp.set_preferences({
     }
 })
 
+local diagnostic_goto = function(next, severity)
+    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    return function()
+        go({ severity = severity })
+    end
+end
+
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.lsp.open_float() end, opts)
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+
+    vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+    vim.keymap.set("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+    vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+    vim.keymap.set("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+    vim.keymap.set("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+    vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+
     vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
@@ -87,4 +97,28 @@ lsp.setup()
 
 vim.diagnostic.config({
     virtual_text = true
+})
+
+-- Fix vim warning
+local lua_opts = lsp.nvim_lua_ls()
+require('lspconfig').lua_ls.setup(lua_opts)
+
+-- https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
+require('lspconfig').pylsp.setup({
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    ignore = { 'W391' },
+                    maxLineLength = 120,
+                },
+                flake8 = {
+                    enabled = false,
+                },
+                mccabe = {
+                    enabled = false,
+                },
+            },
+        },
+    },
 })

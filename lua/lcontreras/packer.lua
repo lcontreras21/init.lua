@@ -2,6 +2,7 @@
 vim.cmd [[packadd packer.nvim]]
 
 
+-- Bootstrap Packer
 local ensure_packer = function()
     local fn = vim.fn
     local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -23,12 +24,13 @@ return require('packer').startup(function(use)
         require('packer').sync()
     end
 
-    -- highly extendable fuzzy finder over lists
+    -- Fuzzy Finder
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.4',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
+    -- Theme
     use({
         "zanglg/nova.nvim",
         as = 'nova',
@@ -40,14 +42,21 @@ return require('packer').startup(function(use)
         end
     })
 
+    -- Theme
     use({
         "savq/melange-nvim",
         as = 'melange',
     })
 
+    -- Abstract Syntax Tree support for everything else
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+    use('nvim-treesitter/nvim-treesitter-textobjects')
 
-    -- Harpoon2 
+    -- todo Highligher
+    use('folke/todo-comments.nvim')
+
+    -- Harpoon2
+    -- Nuff said
     -- https://github.com/ThePrimeagen/harpoon/tree/harpoon2
     use {
         "ThePrimeagen/harpoon",
@@ -55,9 +64,13 @@ return require('packer').startup(function(use)
         requires = { { "nvim-lua/plenary.nvim" } }
     }
 
+    -- Undo like Git
     use('mbbill/undotree')
+
+    -- Git Integration
     use('tpope/vim-fugitive')
 
+    -- Better Commenting Integration
     use {
         'numToStr/Comment.nvim',
         config = function()
@@ -72,6 +85,7 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- LSP Integration
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v3.x',
@@ -87,5 +101,17 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'L3MON4D3/LuaSnip' },
         }
+    }
+
+    -- Better Status Line
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
+
+    -- Markdown Support
+    use {
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
     }
 end)
