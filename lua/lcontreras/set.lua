@@ -38,7 +38,8 @@ vim.opt.updatetime = 50
 -- Set Column limit indicator
 -- TODO find plugin to do this better or make one
 vim.cmd('highlight ColorColumn guifg=green')
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = ""
 
 -- Disable mouse in vim 
 vim.opt.mouse = ""

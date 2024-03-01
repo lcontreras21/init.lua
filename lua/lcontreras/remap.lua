@@ -87,4 +87,9 @@ end)
 vim.keymap.set("n", "<leader><leader>go", "<cmd>!go run main.go<CR>")
 
 -- Clear highlighted
-vim.keymap.set("n", "<leader>h", "<cmd>noh<CR>")
+vim.keymap.set("n", "<leader>ch", "<cmd>noh<CR>")
+
+-- Create command so that :W mimics :w
+vim.api.nvim_create_user_command('W', function()
+    vim.cmd("write")
+end, {})

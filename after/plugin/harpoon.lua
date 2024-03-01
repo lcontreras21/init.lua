@@ -1,31 +1,49 @@
 local harpoon = require("harpoon")
 
--- REQUIRED
-harpoon:setup({
+local config = {
     settings = {
         save_on_toggle = true,
-    }
-})
--- REQUIRED
+    },
+    -- display = function(item)
+    --     local t = {}
+    --     local str = item.context.name
+    --     for s in string.gmatch(str, "([^" .. "/" .. "]+)") do
+    --         table.insert(t, s)
+    --     end
+    --     if #t <= 5 then
+    --         return str
+    --     end
+    --     return ".../" .. t[#t - 3] .. "/" .. t[#t - 2] .. "/" .. t[#t - 1] .. "/" .. t[#t]
+    -- end,
+}
+
+-- START REQUIRED
+harpoon:setup(config)
+-- END REQUIRED
 
 -- Add item to Harpoon List
-vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
-
--- Remove item from Harpoon List
-vim.keymap.set("n", "<leader><leader>d", function() harpoon:list():remove() end)
+vim.keymap.set("n", "<leader>a", function()
+    harpoon:list():append()
+end, {
+    desc = "Add file to Harpoon List",
+})
 
 -- Open Harpoon List
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set("n", "<C-e>", function()
+    harpoon.ui:toggle_quick_menu(harpoon:list())
+end, {
+    desc = "Open Harpoon Menu",
+})
 
 vim.keymap.set("n", "[b", function()
     harpoon:list():prev()
 end, {
-    desc = "Prev buffer",
+    desc = "Open Previous Listed Harpoon item",
 })
 vim.keymap.set("n", "]b", function()
     harpoon:list():next()
 end, {
-    desc = "Next buffer",
+    desc = "Open Next Listed Harpoon item",
 })
 
 -- Open item in vertical split to the right

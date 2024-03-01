@@ -48,6 +48,9 @@ return require('packer').startup(function(use)
         as = 'melange',
     })
 
+    -- Theme
+    use { "catppuccin/nvim", as = "catppuccin" }
+
     -- Abstract Syntax Tree support for everything else
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/nvim-treesitter-textobjects')
@@ -97,9 +100,19 @@ return require('packer').startup(function(use)
             -- LSP Support
             { 'neovim/nvim-lspconfig' },
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },
-            { 'hrsh7th/cmp-nvim-lsp' },
             { 'L3MON4D3/LuaSnip' },
+        }
+    }
+
+    -- Auto-Completion
+    use {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-nvim-lsp',
         }
     }
 
@@ -113,5 +126,34 @@ return require('packer').startup(function(use)
     use {
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
+    }
+
+    -- Git Gutter
+    use('lewis6991/gitsigns.nvim')
+
+    -- Better Folding
+    use {
+        'kevinhwang91/nvim-ufo',
+        requires = 'kevinhwang91/promise-async'
+    }
+
+    -- Obsidian Integration
+    use {
+        "epwalsh/obsidian.nvim",
+        tag = "*", -- recommended, use latest release instead of latest commit
+        requires = {
+            -- Required.
+            "nvim-lua/plenary.nvim",
+        }
+    }
+
+    -- Pomodoro Time Tracker
+    use {
+        'epwalsh/pomo.nvim',
+        tag = '*',
+        requires = {
+            -- Optional, but highly recommended if you want to use the "Default" timer
+            "rcarriga/nvim-notify",
+        },
     }
 end)

@@ -3,7 +3,6 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
 cmp.setup({
     window = {
         completion = cmp.config.window.bordered(),
@@ -27,7 +26,6 @@ cmp.setup({
         ["<Tab>"] = cmp.mapping(function(fallback)
             -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
             if cmp.visible() then
-                local entry = cmp.get_selected_entry()
                 cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
             else
                 fallback()
@@ -35,6 +33,24 @@ cmp.setup({
         end, { "i", "s", "c", }),
     })
 })
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(':', {
+--     mapping = cmp.mapping.preset.cmdline(),
+--     sources = cmp.config.sources({
+--         { name = 'path' }
+--     }, {
+--         { name = 'cmdline', keyword_pattern = [[\!\@<!\w*]] },
+--     })
+-- })
+--
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline({ '/', '?' }, {
+--     mapping = cmp.mapping.preset.cmdline(),
+--     sources = {
+--         { name = 'buffer' }
+--     }
+-- })
 
 lsp.set_preferences({
     suggest_lsp_servers = false,
@@ -99,17 +115,32 @@ vim.diagnostic.config({
     virtual_text = true
 })
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
+
+-- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+-- for _, ls in ipairs(language_servers) do
+--     require('lspconfig')[ls].setup({
+--         capabilities = capabilities
+--         -- you can add other fields for setting up lsp server in this table
+--     })
+-- end
+
 -- Fix vim warning
 local lua_opts = lsp.nvim_lua_ls()
 require('lspconfig').lua_ls.setup(lua_opts)
 
 -- https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
 require('lspconfig').pylsp.setup({
+    capabilities = capabilities,
     settings = {
         pylsp = {
             plugins = {
                 pycodestyle = {
-                    ignore = { 'W391' },
+                    ignore = { 'W391', 'W504' },
                     maxLineLength = 120,
                 },
                 flake8 = {
