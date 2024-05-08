@@ -36,7 +36,8 @@ vim.keymap.set("x", "<leader>p", "\"_dP")
 -- Copies text into the plus register Does not work in wsl2
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
-vim.keymap.set("v", "<leader>Y", "\"+Y")
+-- vim.keymap.set("v", "<leader>Y", "\"+Y")
+vim.keymap.set("n", "<leader>p", "\"+p")
 
 -- Delete to Void Register Does not work in wsl2?
 vim.keymap.set("n", "<leader>d", "\"_d")
@@ -92,4 +93,8 @@ vim.keymap.set("n", "<leader>ch", "<cmd>noh<CR>")
 -- Create command so that :W mimics :w
 vim.api.nvim_create_user_command('W', function()
     vim.cmd("write")
+end, {})
+
+vim.api.nvim_create_user_command('Q', function()
+    vim.cmd("quit")
 end, {})

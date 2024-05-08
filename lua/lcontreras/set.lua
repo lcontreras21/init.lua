@@ -13,7 +13,7 @@ vim.opt.expandtab = true
 
 vim.opt.fileformat = 'unix'
 
-vim.opt.smartindent = true
+vim.opt.smartindent = false
 
 vim.opt.wrap = false
 

@@ -156,4 +156,17 @@ return require('packer').startup(function(use)
             "rcarriga/nvim-notify",
         },
     }
+
+    -- Better Vim Marks
+    use('chentoast/marks.nvim')
+
+    -- Better LSP Formatter
+    -- TODO: Still need to learn to use it
+    use('stevearc/conform.nvim')
+
+    -- Type Annotation Helper
+    use('danymat/neogen')
+
+    -- Indent Blankline
+    use('lukas-reineke/indent-blankline.nvim')
 end)

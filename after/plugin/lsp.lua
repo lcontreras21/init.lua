@@ -3,17 +3,12 @@ local lsp = require('lsp-zero')
 lsp.preset('recommended')
 
 local cmp = require('cmp')
+
 cmp.setup({
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
     preselect = cmp.PreselectMode.None,
     mapping = cmp.mapping.preset.insert({
         ["<CR>"] = cmp.mapping({
             i = function(fallback)
-                print(cmp.visible())
-                print(cmp.get_active_entry())
                 if cmp.visible() and cmp.get_active_entry() then
                     cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
                 else
@@ -31,19 +26,41 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s", "c", }),
-    })
+    }),
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
--- cmp.setup.cmdline(':', {
---     mapping = cmp.mapping.preset.cmdline(),
---     sources = cmp.config.sources({
---         { name = 'path' }
---     }, {
---         { name = 'cmdline', keyword_pattern = [[\!\@<!\w*]] },
---     })
--- })
---
+cmp.setup.cmdline(':', {
+    completion = {
+        autocomplete = false,
+    },
+    preselect = cmp.PreselectMode.None,
+    mapping = cmp.mapping.preset.cmdline({
+        ["<CR>"] = cmp.mapping({
+            i = function(fallback)
+                print(cmp.visible())
+                print(cmp.get_active_entry())
+                if cmp.visible() and cmp.get_active_entry() then
+                    cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+                else
+                    fallback()
+                end
+            end,
+            s = cmp.mapping.confirm({ select = true }),
+            c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        }),
+    }),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline', keyword_pattern = [[\!\@<!\w*]] },
+    })
+})
+
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 -- cmp.setup.cmdline({ '/', '?' }, {
 --     mapping = cmp.mapping.preset.cmdline(),

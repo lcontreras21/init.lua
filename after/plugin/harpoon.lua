@@ -23,7 +23,7 @@ harpoon:setup(config)
 
 -- Add item to Harpoon List
 vim.keymap.set("n", "<leader>a", function()
-    harpoon:list():append()
+    harpoon:list():add()
 end, {
     desc = "Add file to Harpoon List",
 })
