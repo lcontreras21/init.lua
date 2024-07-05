@@ -153,9 +153,6 @@ return require('packer').startup(function(use)
     -- Indent Blankline
     use('lukas-reineke/indent-blankline.nvim')
 
-    -- Notepad
-    use('yujinyuz/gitpad.nvim')
-
     -- Train more vim macros 
     use {
         'm4xshen/hardtime.nvim',
