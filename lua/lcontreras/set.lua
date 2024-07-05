@@ -48,3 +48,10 @@ vim.opt.mouse = ""
 vim.opt.ruler  = true
 
 vim.g.mapleader = " "
+
+-- Don't know where else to put this, maybe in globals file?
+-- Make sure nvim doesn't create python specific mappings
+vim.g.no_python_maps = true
+
+-- Disable nvim making maps for any filetype (just in case, hasn't been an issue besides python)
+-- vim.g.no_plugin_maps = true

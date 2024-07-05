@@ -1,6 +1,14 @@
 require('catppuccin').setup({
     flavor = "frappe",
     transparent_background = true,
+    custom_highlights = function(colors)
+        return {
+            CmpBorder = { fg = colors.surface2 },
+            LineNr = { fg = colors.lavender },
+            CursorLineNr = { fg = colors.green },
+            -- CursorLine = { bg = colors.base, blend = 100},
+        }
+    end,
     integrations = {
         cmp = true,
         gitsigns = true,

@@ -30,7 +30,7 @@ return require('packer').startup(function(use)
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
-    -- Theme
+    -- Themes
     use({
         "zanglg/nova.nvim",
         as = 'nova',
@@ -41,14 +41,7 @@ return require('packer').startup(function(use)
             vim.cmd('colorscheme nova')
         end
     })
-
-    -- Theme
-    use({
-        "savq/melange-nvim",
-        as = 'melange',
-    })
-
-    -- Theme
+    use { "savq/melange-nvim", as = 'melange' }
     use { "catppuccin/nvim", as = "catppuccin" }
 
     -- Abstract Syntax Tree support for everything else
@@ -147,16 +140,6 @@ return require('packer').startup(function(use)
         }
     }
 
-    -- Pomodoro Time Tracker
-    use {
-        'epwalsh/pomo.nvim',
-        tag = '*',
-        requires = {
-            -- Optional, but highly recommended if you want to use the "Default" timer
-            "rcarriga/nvim-notify",
-        },
-    }
-
     -- Better Vim Marks
     use('chentoast/marks.nvim')
 
@@ -169,4 +152,13 @@ return require('packer').startup(function(use)
 
     -- Indent Blankline
     use('lukas-reineke/indent-blankline.nvim')
+
+    -- Notepad
+    use('yujinyuz/gitpad.nvim')
+
+    -- Train more vim macros 
+    use {
+        'm4xshen/hardtime.nvim',
+        requires = { { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' } }
+    }
 end)

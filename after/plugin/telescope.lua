@@ -50,12 +50,43 @@ end)
 -- Vim Help
 vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
-local actions = require("telescope.actions")
+-- local actions = require("telescope.actions")
+-- local action_utils = require('telescope.actions.utils')
+local action_state = require("telescope.actions.state")
+local telescope_custom_actions = {}
+
+local harpoon = require("harpoon")
+
+-- function telescope_custom_actions.harpoon_mark(prompt_bufnr)
+--     action_utils.map_entries(prompt_bufnr, function(entry)
+--         -- this didn't work for me, but I think I'm close
+--         mark.add_file(vim.api.nvim_buf_get_name(entry))
+--     end)
+-- end
+
+function telescope_custom_actions.harpoon_mark(prompt_bufnr)
+    local picker = action_state.get_current_picker(prompt_bufnr)
+    local multi_selection = picker:get_multi_selection()
+
+    if #multi_selection > 1 then
+        for i, entry in ipairs(multi_selection) do
+            local filename
+
+            if entry.path or entry.filename then
+                print(filename)
+                filename = entry.path or entry.filename
+                harpoon:list():add(entry.path .. filename);
+            end
+        end
+    end
+end
+
 require("telescope").setup {
     defaults = {
         mappings = {
             i = {
-                ["<esc>"] = actions.close
+                -- ["<esc>"] = actions.close
+                ["<C-b>"] = telescope_custom_actions.harpoon_mark
             },
         },
     }

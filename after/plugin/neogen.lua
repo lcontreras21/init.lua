@@ -14,7 +14,7 @@ local reST_without_types = {
     { nil, '"""' },
     { nil, "$1" },
     { i.Parameter, ":param %s:$1", { type = { "func" } } },
-    { { i.Parameter, i.Type }, ":param %s: %s,$1", { required = i.Tparam, type = { "func" } } },
+    { { i.Parameter, i.Type }, ":param %s: %s,$1", { required = i.Tparam, type = { "class", "func" } } },
     { i.ClassAttribute, ":param %s:$1" },
     { i.Throw, ":raises %s:$1", { type = { "func" } } },
     { i.Return, ":return:$1", { type = { "func" } } },
