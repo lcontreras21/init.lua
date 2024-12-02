@@ -1,8 +1,11 @@
+-- https://github.com/chentoast/marks.nvim
+
 local config = {
     -- whether to map keybinds or not. default true
     default_mappings = false,
     -- which builtin marks to show. default {}
     mappings = {
+        set = "<leader>m",
         set_next = "ma",
         next = "]m",
         prev = '[m',

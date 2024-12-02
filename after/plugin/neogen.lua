@@ -61,4 +61,5 @@ local config = {
 neogen.setup(config)
 
 local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<leader>ds", ":lua require('neogen').generate()<CR>", opts)
+vim.keymap.set("n", "<leader>dsc", ":lua require('neogen').generate({ type = 'class' })<CR>", opts)
+vim.keymap.set("n", "<Leader>dsf", ":lua require('neogen').generate({ type = 'func' })<CR>", opts)

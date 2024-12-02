@@ -112,7 +112,7 @@ require('mason-lspconfig').setup({
     ensure_installed = {
         'eslint',
         'lua_ls',
-        'ruff_lsp', -- need python3-venv installed
+        'ruff', -- need python3-venv installed
         'pyright',
         'clangd',
         'unocss',
@@ -120,7 +120,6 @@ require('mason-lspconfig').setup({
         'docker_compose_language_service',
         'html',
         'gopls',
-        'tsserver'
     },
     handlers = {
         lsp.default_setup,
@@ -139,6 +138,8 @@ capabilities.textDocument.foldingRange = {
     lineFoldingOnly = true
 }
 
+local lspconfig = require('lspconfig')
+local configs = require('lspconfig.configs')
 -- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
 -- for _, ls in ipairs(language_servers) do
 --     require('lspconfig')[ls].setup({
@@ -149,19 +150,19 @@ capabilities.textDocument.foldingRange = {
 
 -- Fix vim warning
 local lua_opts = lsp.nvim_lua_ls()
-require('lspconfig').lua_ls.setup(lua_opts)
+lspconfig.lua_ls.setup(lua_opts)
 
 local on_attach = function(client, bufnr)
-    if client.name == 'ruff_lsp' then
+    if client.name == 'ruff' then
         -- Disable hover in favor of Pyright
         client.server_capabilities.hoverProvider = false
     end
 end
 
--- Configure `ruff-lsp`.
+-- Configure `ruff`.
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
 -- For the default config, along with instructions on how to customize the settings
-require('lspconfig').ruff_lsp.setup {
+lspconfig.ruff.setup {
     on_attach = on_attach,
     init_options = {
         settings = {
@@ -171,7 +172,7 @@ require('lspconfig').ruff_lsp.setup {
     }
 }
 
-require('lspconfig').pyright.setup {
+lspconfig.pyright.setup {
     settings = {
         pyright = {
             -- Using Ruff's import organizer
@@ -185,3 +186,17 @@ require('lspconfig').pyright.setup {
         },
     },
 }
+
+-- local util = require 'lspconfig.util'
+-- if not configs.djlint then
+--     configs.djlint = {
+--         default_config = {
+--             name = 'djlint',
+--             cmd = { 'djlint' , '--profile=django' },
+--             filetypes = { 'htmldjango' },
+--             root_dir = util.find_git_ancestor,
+--             single_file_support = true,
+--         },
+--     }
+-- end
+-- lspconfig.djlint.setup {}
