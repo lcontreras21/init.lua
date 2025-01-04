@@ -3,56 +3,44 @@
 local config = {
     workspaces = {
         {
-            name = "Work",
-            path = "~/windows/desktop/obsidian/Work",
-        },
-        {
-            name = "Personal",
-            path = "~/windows/desktop/obsidian/Personal",
+            name = "Database",
+            path = "~/Obsidian/Database", -- symlink to actual vault dir
         },
     },
-    notes_subdir = "Notes",
     daily_notes = {
         -- Optional, if you keep daily notes in a separate directory.
-        folder = "Notes/Daily",
+        folder = "5. Daily",
+        -- Optional, default tags to add to each new daily note created.
+        default_tags = {},
         -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-        template = nil
+        template = "Daily.md"
     },
 
-    -- Where to put new notes created from completion. Valid options are
-    --  * "current_dir" - put new notes in same directory as the current buffer.
-    --  * "notes_subdir" - put new notes in the default notes subdirectory.
-    new_notes_location = "Notes_subdir",
+    -- Optional, alternatively you can customize the frontmatter data.
+    ---@return table
+    note_frontmatter_func = function(note)
+        -- Add the title of the note as an alias.
+        if note.title then
+            note:add_alias(note.title)
+        end
 
-    -- Optional, customize how note IDs are generated given an optional title.
-    note_id_func = function(title)
-        -- Create note IDs 
-        local suffix = ""
-        if title ~= nil then
-            -- If title is given, transform it into valid file name.
-            suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-        else
-            -- If title is nil, just add 4 random uppercase letters to the suffix.
-            for _ = 1, 4 do
-                suffix = suffix .. string.char(math.random(65, 90))
+        local out = { id = note.id, aliases = note.aliases, tags = note.tags, area = "", project = "" }
+
+        -- `note.metadata` contains any manually added fields in the frontmatter.
+        -- So here we just make sure those fields are kept in the frontmatter.
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+            for k, v in pairs(note.metadata) do
+                out[k] = v
             end
         end
-        return suffix
+
+        return out
     end,
 
-    -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
-    completion = {
-        -- Set to false to disable completion.
-        nvim_cmp = true,
-        -- Trigger completion at 2 chars.
-        min_chars = 2,
+    -- Optional, for templates (see below).
+    templates = {
+        folder = "Templates",
     },
-
-    -- Optional, by default commands like `:ObsidianSearch` will attempt to use
-    -- telescope.nvim, fzf-lua, fzf.vim, or mini.pick (in that order), and use the
-    -- first one they find. You can set this option to tell obsidian.nvim to always use this
-    -- finder.
-    finder = "telescope.nvim",
 }
 local obsidian = require('obsidian')
 obsidian.setup(config)
