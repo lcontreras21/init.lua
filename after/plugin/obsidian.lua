@@ -15,6 +15,7 @@ local config = {
         -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
         template = "Daily.md"
     },
+    notes_subdir = "0. Inbox",
 
     -- Optional, alternatively you can customize the frontmatter data.
     ---@return table
