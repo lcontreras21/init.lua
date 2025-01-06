@@ -1,3 +1,4 @@
+-- https://github.com/nvim-telescope/telescope.nvim
 local builtin = require('telescope.builtin')
 
 local function find_files_from_project_git_root()
@@ -18,6 +19,11 @@ local function find_files_from_project_git_root()
     builtin.find_files(opts)
 end
 
+vim.keymap.set('n', '<leader>en', function()
+    builtin.find_files {
+        cwd = vim.fn.stdpath('config')
+    }
+end)
 
 vim.keymap.set('n', '<leader>pf', function()
     if vim.fn.isdirectory(".git") == 1 then
@@ -89,5 +95,12 @@ require("telescope").setup {
                 ["<C-b>"] = telescope_custom_actions.harpoon_mark
             },
         },
+    },
+    extensions = {
+        fzf = {}
     }
 }
+
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require('telescope').load_extension('fzf')

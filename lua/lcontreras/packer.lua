@@ -26,8 +26,14 @@ return require('packer').startup(function(use)
 
     -- Fuzzy Finder
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.4',
-        requires = { { 'nvim-lua/plenary.nvim' } }
+        'nvim-telescope/telescope.nvim',
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+            -- might not auto-build
+            -- cd ~/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim/
+            -- make
+        }
     }
 
     -- Themes
