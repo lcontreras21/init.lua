@@ -54,7 +54,7 @@ return require('packer').startup(function(use)
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/nvim-treesitter-textobjects')
 
-    -- todo Highligher
+    -- todo Highlighter
     use('folke/todo-comments.nvim')
 
     -- Harpoon2

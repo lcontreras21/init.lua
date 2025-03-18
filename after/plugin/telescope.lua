@@ -19,7 +19,7 @@ local function find_files_from_project_git_root()
     builtin.find_files(opts)
 end
 
-vim.keymap.set('n', '<leader>en', function()
+vim.keymap.set('n', '<leader>env', function()
     builtin.find_files {
         cwd = vim.fn.stdpath('config')
     }
@@ -95,10 +95,11 @@ require("telescope").setup {
                 ["<C-b>"] = telescope_custom_actions.harpoon_mark
             },
         },
+        file_ignore_patterns = { 'ashp/lib/', 'ashp/bin/', 'charts/', 'static/vendors/bower_components', }
     },
     extensions = {
         fzf = {}
-    }
+    },
 }
 
 -- To get fzf loaded and working with telescope, you need to call
