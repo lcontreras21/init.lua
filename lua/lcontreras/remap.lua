@@ -1,4 +1,4 @@
--- Remaps inpsired by ThePrimeagen
+-- Remaps inspired by ThePrimeagen
 
 vim.keymap.set("n", "<leader>pd", vim.cmd.Ex)
 
@@ -98,3 +98,7 @@ end, {})
 vim.api.nvim_create_user_command('Q', function()
     vim.cmd("quit")
 end, {})
+
+-- Go to first and last character in line
+vim.keymap.set({'n', 'v'}, "gh", "^")
+vim.keymap.set({'n', 'v'}, "gl", "$")
