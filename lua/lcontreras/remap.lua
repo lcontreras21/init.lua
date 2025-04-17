@@ -19,14 +19,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- VIM Practice Sessions
-vim.keymap.set("n", "<leader>vwm", function()
-    require("vim-with-me").StartVimWithMe()
-end)
-vim.keymap.set("n", "<leader>svwm", function()
-    require("vim-with-me").StopVimWithMe()
-end)
-
 -- "greatest remap ever"
 -- when copy/pasting onto a highlighted word, preserve the element being copied
 -- Ex: have foo in clipboard. highlight bar and paste using remap
@@ -34,8 +26,7 @@ end)
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
 -- Copies text into the plus register Does not work in wsl2
-vim.keymap.set("n", "<leader>y", "\"+y")
-vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
 -- vim.keymap.set("v", "<leader>Y", "\"+Y")
 vim.keymap.set("n", "<leader>p", "\"+p")
 
@@ -45,6 +36,11 @@ vim.keymap.set("v", "<leader>d", "\"_d")
 
 -- Remap Ctrl-C to ESC
 vim.keymap.set("i", "<C-c>", "<Esc>")
+
+-- Remap CTRL-S to Save
+vim.keymap.set("n", "<C-s>", "<cmd>w<CR>", { desc = "Save" })
+
+vim.keymap.set("n", "<leader>q", "<cmd>wq<CR>", { desc = "Save and Quit" })
 
 -- Unprogram Q in normal mode
 vim.keymap.set("n", "Q", "<nop>")
@@ -99,6 +95,8 @@ vim.api.nvim_create_user_command('Q', function()
     vim.cmd("quit")
 end, {})
 
--- Go to first and last character in line
-vim.keymap.set({'n', 'v'}, "gh", "^")
-vim.keymap.set({'n', 'v'}, "gl", "$")
+-- Go to first and last character in line and stop relying on $ and ^
+vim.keymap.set({ 'n', 'v' }, "gh", "^")
+vim.keymap.set({ 'n', 'v' }, "gl", "$")
+vim.keymap.set('n', "$", "<nop>")
+vim.keymap.set('n', "^", "<nop>")

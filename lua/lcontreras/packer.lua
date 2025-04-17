@@ -161,4 +161,8 @@ return require('packer').startup(function(use)
         'm4xshen/hardtime.nvim',
         requires = { { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' } }
     }
+
+
+    -- Auto Closing HTML tags
+    use('windwp/nvim-ts-autotag')
 end)
