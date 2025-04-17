@@ -7,6 +7,7 @@ require('mason').setup()
 require('mason-lspconfig').setup({
     ensure_installed = {
         'eslint',
+        'ts_ls',
         'lua_ls',
         'ruff', -- need python3-venv installed
         'pyright',
@@ -36,12 +37,17 @@ lsp.set_preferences({
 })
 
 local diagnostic_goto = function(next, severity)
-    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
     severity = severity and vim.diagnostic.severity[severity] or nil
+    local settings = {
+        count = next and 1 or -1,
+        float = true,
+        severity = severity
+    }
     return function()
-        go({ severity = severity })
+        vim.diagnostic.jump(settings)
     end
 end
+
 
 ---@diagnostic disable-next-line: unused-local
 lsp.on_attach(function(client, bufnr)
@@ -62,9 +68,37 @@ end)
 
 lsp.setup()
 
-vim.diagnostic.config({
-    virtual_text = true
-})
+-- --------------------------------------------
+
+-- Enable Virtual Text and Virtual Lines
+local diagnostic_config_norm = {
+    virtual_text = {
+        severity = {
+            max = vim.diagnostic.severity.WARN,
+        },
+    },
+    virtual_lines = {
+        severity = {
+            min = vim.diagnostic.severity.ERROR,
+        },
+    },
+}
+local diagnostic_config_hide = {
+    virtual_text = true,
+    virtual_lines = false,
+}
+vim.diagnostic.config(diagnostic_config_norm)
+local diag_config_basic = false
+vim.keymap.set("n", "gK", function()
+    diag_config_basic = not diag_config_basic
+    if diag_config_basic then
+        vim.diagnostic.config(diagnostic_config_hide)
+    else
+        vim.diagnostic.config(diagnostic_config_norm)
+    end
+end, { desc = "Toggle diagnostic virtual_lines" })
+
+-- --------------------------------------------
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.foldingRange = {
@@ -84,6 +118,13 @@ local on_attach = function(client)
         client.server_capabilities.hoverProvider = false
     end
 end
+
+-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+lspconfig.eslint.setup {
+  capabilities = lsp_capabilities,
+}
 
 -- Configure `ruff`.
 -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
