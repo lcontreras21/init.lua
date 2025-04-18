@@ -132,15 +132,10 @@ return require('packer').startup(function(use)
         }
     }
 
-<<<<<<< Updated upstream
-    -- Better LSP Formatter
-    -- TODO: Still need to learn to use it
-=======
     -- Better Vim Marks
     use('chentoast/marks.nvim')
 
     -- Better LSP Formatting
->>>>>>> Stashed changes
     use('stevearc/conform.nvim')
 
     -- Docstring Annotation Inserter
