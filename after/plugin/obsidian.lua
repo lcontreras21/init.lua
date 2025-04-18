@@ -4,7 +4,7 @@ local config = {
     workspaces = {
         {
             name = "Database",
-            path = "~/Obsidian/Database", -- symlink to actual vault dir
+            path = vim.env.HOME .. "/Obsidian/Database", -- symlink to actual vault dir
         },
     },
     daily_notes = {
@@ -16,6 +16,7 @@ local config = {
         template = "Daily.md"
     },
     notes_subdir = "0. Inbox",
+    new_notes_location = "notes_subdir",
 
     -- Optional, alternatively you can customize the frontmatter data.
     ---@return table

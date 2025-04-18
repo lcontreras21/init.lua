@@ -42,7 +42,7 @@ require('catppuccin').setup({
 })
 
 function ColorMyPencils(color)
-    -- color = color or "catppuccin-frappe"  -- Use nova as default
+    -- color = color or "catppuccin-frappe"
     color = 'catppuccin-frappe'
     vim.cmd.colorscheme(color)
 

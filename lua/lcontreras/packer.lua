@@ -30,24 +30,10 @@ return require('packer').startup(function(use)
         requires = {
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-            -- might not auto-build
-            -- cd ~/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim/
-            -- make
         }
     }
 
-    -- Themes
-    use({
-        "zanglg/nova.nvim",
-        as = 'nova',
-        opts = {
-            theme = 'dark'
-        },
-        config = function()
-            vim.cmd('colorscheme nova')
-        end
-    })
-    use { "savq/melange-nvim", as = 'melange' }
+    -- Colorscheme 
     use { "catppuccin/nvim", as = "catppuccin" }
 
     -- Abstract Syntax Tree support for everything else
@@ -121,13 +107,13 @@ return require('packer').startup(function(use)
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
 
-    -- Markdown Support
+    -- Markdown Preview in Browser
     use {
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
     }
 
-    -- Git Gutter
+    -- Add Git Info in Gutter (sidebar)
     use('lewis6991/gitsigns.nvim')
 
     -- Better Folding
@@ -146,14 +132,21 @@ return require('packer').startup(function(use)
         }
     }
 
+<<<<<<< Updated upstream
     -- Better LSP Formatter
     -- TODO: Still need to learn to use it
+=======
+    -- Better Vim Marks
+    use('chentoast/marks.nvim')
+
+    -- Better LSP Formatting
+>>>>>>> Stashed changes
     use('stevearc/conform.nvim')
 
-    -- Type Annotation Helper
+    -- Docstring Annotation Inserter
     use('danymat/neogen')
 
-    -- Indent Blankline
+    -- Add indentation markers
     use('lukas-reineke/indent-blankline.nvim')
 
     -- Train more vim macros 
