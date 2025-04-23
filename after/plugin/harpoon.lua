@@ -3,23 +3,15 @@ local harpoon = require("harpoon")
 local config = {
     settings = {
         save_on_toggle = true,
+
     },
-    -- display = function(item)
-    --     local t = {}
-    --     local str = item.context.name
-    --     for s in string.gmatch(str, "([^" .. "/" .. "]+)") do
-    --         table.insert(t, s)
-    --     end
-    --     if #t <= 5 then
-    --         return str
-    --     end
-    --     return ".../" .. t[#t - 3] .. "/" .. t[#t - 2] .. "/" .. t[#t - 1] .. "/" .. t[#t]
-    -- end,
 }
 
--- START REQUIRED
 harpoon:setup(config)
--- END REQUIRED
+
+-- Highlight current file in list
+local harpoon_extensions = require("harpoon.extensions")
+harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
 
 -- Add item to Harpoon List
 vim.keymap.set("n", "<leader>a", function()
