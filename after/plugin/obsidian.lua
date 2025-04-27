@@ -50,16 +50,9 @@ obsidian.setup(config)
 vim.opt.conceallevel = 1
 
 -- https://www.reddit.com/r/neovim/comments/zolylk/new_to_neovim_wanting_to_use_it_for_notes/j0o9nhz/
-vim.keymap.set("n", "<leader>or", ":b#<cr>") -- Open previous buffer
-vim.keymap.set("n", "<leader>ot", ":ObsidianToday<cr>")
-vim.keymap.set("n", "<leader>oy", ":ObsidianYesterday<cr>")
 vim.keymap.set("n", "<leader>of", ":ObsidianFollowLink<cr>")
 vim.keymap.set("n", "<leader>os", ":ObsidianSearch<cr>")
-vim.keymap.set("n", "<leader>oo", ":ObsidianOpen<cr>")
 vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<cr>")
-vim.keymap.set("n", "<leader>on", ":ObsidianNew<cr>")
-vim.keymap.set("v", "<leader>om", ":obsidianlink<cr>")
-vim.keymap.set("v", "<leader>ol", ":ObsidianLinkNew<cr>")
 
 -- Set Word Wrap on .md files
 local group = vim.api.nvim_create_augroup("Markdown Wrap Settings", { clear = true })

@@ -50,6 +50,8 @@ local options = {
 
         -- Set Info at bottom of screen
         ruler = true,
+
+        showmode = false,
     },
     global = {
         mapleader = " ",

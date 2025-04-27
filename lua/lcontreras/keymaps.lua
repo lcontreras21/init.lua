@@ -5,10 +5,9 @@ local diagnostic_config_hide = {
 }
 local diag_config_basic = false
 
--- TODO: fix table formatting?
 local keymaps = {
+    { "n",          "<leader>or", "<C-^>",                                                { desc = "Open previous buffer" } },
     { "n",          "<leader>pd", vim.cmd.Ex,                                             { desc = "" } },
-    { "n",          "<leader>u",  "<cmd>UndotreeShow<CR>",                                { desc = "" } },
     { "v",          "J",          ":m '>+1<CR>gv=gv",                                     { desc = "Move highlighted down" } },
     { "v",          "K",          ":m '<-2<CR>gv=gv",                                     { desc = "Move highlighted down" } },
     { "n",          "J",          "mzJ`z",                                                { desc = "Move the next most line to the end of the current line, keeping cursor in place" } },
@@ -25,14 +24,13 @@ local keymaps = {
     { "n",          "Q",          "<nop>",                                                { desc = "Unprogram Q in normal mode" } },
     { "n",          "<leader>s",  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Find and replace the current selected word" } },
     { "n",          "<leader>x",  "<cmd>!chmod +x %<CR>",                                 { desc = "Modify a bash file to be executable" } },
-    { { 'n', 'v' }, "gh",         "^",                                                    { desc = "Go to first character" } },
-    { { 'n', 'v' }, "gl",         "$",                                                    { desc = "Go to last character in line" } },
-    { 'n',          "$",          "<nop>",                                                { desc = "Stop relying on $" } },
-    { 'n',          "^",          "<nop>",                                                { desc = "Stop relying on ^" } },
+    { { "n", "v" }, "gh",         "^",                                                    { desc = "Go to first character" } },
+    { { "n", "v" }, "gl",         "$",                                                    { desc = "Go to last character in line" } },
+    { "n",          "$",          "<nop>",                                                { desc = "Stop relying on $" } },
+    { "n",          "^",          "<nop>",                                                { desc = "Stop relying on ^" } },
     { "n",          "<leader>ch", "<cmd>noh<CR>",                                         { desc = "Clear highlighted" } },
-    { "v",          "<",          "<gv",                                                  { desc = "Keep selection highlighted after shifting left" } },
-    { "v",          ">",          ">gv",                                                  { desc = "Keep selection highlighted after shifting right" } },
-    { 'n',          '<leader>u',  vim.cmd.UndotreeToggle,                                 { desc = "Open better undo history" } },
+    { "n",          "<leader>u",  vim.cmd.UndotreeToggle,                                 { desc = "Open better undo history" } },  -- WARN: plugin specific
+    { "x",          "/",          "<Esc>/\\%V",                                           { desc = "search within visual selection" } },
     {
         "n",
         "<leader>gs",

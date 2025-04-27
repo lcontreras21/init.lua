@@ -19,80 +19,66 @@ local function find_files_from_project_git_root()
     builtin.find_files(opts)
 end
 
-vim.keymap.set('n', '<leader>env', function()
-    builtin.find_files {
-        cwd = vim.fn.stdpath('config')
+local keymaps = {
+    { 'n', '<leader>ff', find_files_from_project_git_root, { desc = "Open a Picker for all files" } },
+    { 'n', '<leader>rf', builtin.resume,                   { desc = "Re-open the previously opened Picker" } },
+    { 'n', '<leader>vh', builtin.help_tags,                { desc = "Vim Help" } },
+    {
+        'n',
+        '<leader>pws',
+        function()
+            builtin.grep_string({ search = vim.fn.expand("<cword>>") })
+        end,
+        { desc = "Open a Picker for files containing this `word`, case-sensitve" }
+    },
+    {
+        'n',
+        '<leader>pWs',
+        function()
+            builtin.grep_string({ search = vim.fn.expand("<cWORD>") })
+        end,
+        { desc = "Open a Picker for files containing this `word`, case-insensitve" } },
+    {
+        'n',
+        '<leader>ps',
+        function()
+            builtin.grep_string({ search = vim.fn.input("Grep > ") })
+        end,
+        { desc = "" }
+    },
+    {
+        'n',
+        '<leader>env',
+        function()
+            builtin.find_files({ cwd = vim.fn.stdpath('config') })
+        end,
+        { desc = "Open a Picker containing files from nvim config directory" }
+    },
+    {
+        'n',
+        '<leader>pf',
+        function()
+            local fn = vim.fn.isdirectory(".git") and builtin.git_files or builtin.find_files
+            fn()
+        end,
+        { desc = "Open a Picker for Git files" }
     }
-end)
+}
 
-vim.keymap.set('n', '<leader>pf', function()
-    if vim.fn.isdirectory(".git") == 1 then
-        builtin.git_files()
-    else
-        builtin.find_files()
-    end
-end, {})
+for _, key in pairs(keymaps) do
+    local opts = key[4] or {}
+    opts.silent = true
 
-vim.keymap.set('n', '<leader>ff', function()
-    find_files_from_project_git_root()
-end, {})
-
-vim.keymap.set('n', '<leader>rf', builtin.resume, {})
-
-vim.keymap.set('n', '<leader>pws', function()
-    local word = vim.fn.expand("<cword>>")
-    builtin.grep_string({ search = word });
-end)
-
-vim.keymap.set('n', '<leader>pWs', function()
-    local word = vim.fn.expand("<cWORD>")
-    builtin.grep_string({ search = word });
-end)
-
-vim.keymap.set('n', '<leader>ps', function()
-    builtin.grep_string({ search = vim.fn.input("GREP > ") });
-end)
-
--- Vim Help
-vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
-
--- local actions = require("telescope.actions")
--- local action_utils = require('telescope.actions.utils')
-local action_state = require("telescope.actions.state")
-local telescope_custom_actions = {}
-
-local harpoon = require("harpoon")
-
--- function telescope_custom_actions.harpoon_mark(prompt_bufnr)
---     action_utils.map_entries(prompt_bufnr, function(entry)
---         -- this didn't work for me, but I think I'm close
---         mark.add_file(vim.api.nvim_buf_get_name(entry))
---     end)
--- end
-
-function telescope_custom_actions.harpoon_mark(prompt_bufnr)
-    local picker = action_state.get_current_picker(prompt_bufnr)
-    local multi_selection = picker:get_multi_selection()
-
-    if #multi_selection > 1 then
-        for i, entry in ipairs(multi_selection) do
-            local filename
-
-            if entry.path or entry.filename then
-                print(filename)
-                filename = entry.path or entry.filename
-                harpoon:list():add(entry.path .. filename);
-            end
-        end
-    end
+    vim.keymap.set(key[1], key[2], key[3])
 end
 
+
+-- local actions = require("telescope.actions")
 require("telescope").setup {
     defaults = {
         mappings = {
             i = {
                 -- ["<esc>"] = actions.close
-                ["<C-b>"] = telescope_custom_actions.harpoon_mark
             },
         },
         file_ignore_patterns = { 'ashp/lib/', 'ashp/bin/', 'charts/', 'static/vendors/bower_components', }

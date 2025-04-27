@@ -11,6 +11,7 @@ local set_lsp_keymaps = function(bufnr)
         }
         return function()
             vim.diagnostic.jump(settings)
+            vim.api.nvim_feedkeys("zz", "n", false) -- Keep centered in page
         end
     end
 

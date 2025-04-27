@@ -9,34 +9,25 @@ local config = {
 
 harpoon:setup(config)
 
+local keymaps = {
+    { "n", "<leader>a", function() harpoon:list():add() end,                         { desc = "Add file to Harpoon List", } },
+    { "n", "<C-e>",     function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Open Harpoon Menu", } },
+}
+
+for _, key in pairs(keymaps) do
+    local opts = key[4] or {}
+    opts.silent = true
+
+    vim.keymap.set(key[1], key[2], key[3])
+end
+
+-----------------------------------------------------------------------
+----------------------------- Extensions ------------------------------
+-----------------------------------------------------------------------
+
 -- Highlight current file in list
 local harpoon_extensions = require("harpoon.extensions")
 harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
-
--- Add item to Harpoon List
-vim.keymap.set("n", "<leader>a", function()
-    harpoon:list():add()
-end, {
-    desc = "Add file to Harpoon List",
-})
-
--- Open Harpoon List
-vim.keymap.set("n", "<C-e>", function()
-    harpoon.ui:toggle_quick_menu(harpoon:list())
-end, {
-    desc = "Open Harpoon Menu",
-})
-
-vim.keymap.set("n", "[b", function()
-    harpoon:list():prev()
-end, {
-    desc = "Open Previous Listed Harpoon item",
-})
-vim.keymap.set("n", "]b", function()
-    harpoon:list():next()
-end, {
-    desc = "Open Next Listed Harpoon item",
-})
 
 -- Open item in vertical split to the right
 harpoon:extend({
