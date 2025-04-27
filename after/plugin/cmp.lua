@@ -1,5 +1,9 @@
 -- https://github.com/hrsh7th/nvim-cmp
 local cmp = require('cmp')
+local snippet_engine = require('lcontreras.snippets')
+
+-- register my Snippet Engine into cmp
+snippet_engine.register_cmp_source()
 
 cmp.setup({
     expand = function(args)
@@ -30,6 +34,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
+        { name = snippet_engine.name }
     }, {
         { name = 'buffer' },
     }),

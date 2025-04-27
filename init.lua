@@ -20,6 +20,7 @@ local modules = {
     "options",
     "packer",
     "keymaps",
+    "autocmds",
     "usercmds",
     "lsp",
 }
