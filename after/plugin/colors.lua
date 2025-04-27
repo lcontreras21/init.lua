@@ -12,9 +12,15 @@ require('catppuccin').setup({
     integrations = {
         cmp = true,
         gitsigns = true,
-        harpoon = false,
-        mason = false,
-        native_lsp = {
+        harpoon = true,
+        mason = true,
+        indent_blankline = {
+            enabled = true,
+            scope_color = "", -- catppuccin color (eg. `lavender`) Default: text
+            colored_indent_levels = false,
+        },
+        -- lualine, enabled in lualine.lsp config
+        native_lsp = {  --lspconfig
             enabled = true,
             virtual_text = {
                 errors = { "italic" },
