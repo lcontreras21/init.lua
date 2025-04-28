@@ -10,7 +10,8 @@ local function get_filetype_snippets()
     for _, f in pairs(vim.api.nvim_get_runtime_file('snippets/*.lua', true)) do
         local filetype = vim.fn.fnamemodify(f, ':t:r')
         if (filetype ~= 'global') then
-            local snippets = require('snippets/' .. filetype)
+            -- local snippets = dofile('snippets.' .. filetype)
+            local snippets = dofile(f)
             snippets_by_filetype[filetype] = snippets
         end
     end
@@ -22,7 +23,9 @@ local function get_global_snippets()
     local global_snippets = {}
 
     if (vim.loop.fs_stat('snippets/global.lua')) then
-        global_snippets = require('snippets/global')
+        local f =vim.api.nvim_get_runtime_file('snippets/global.lua', true)[1]
+        -- global_snippets = dofile('snippets.global')
+        global_snippets = dofile(f)
     end
     return global_snippets
 end

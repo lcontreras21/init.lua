@@ -58,8 +58,11 @@ local keymaps = {
         'n',
         '<leader>pf',
         function()
-            local fn = vim.fn.isdirectory(".git") and builtin.git_files or builtin.find_files
-            fn()
+            if vim.fn.isdirectory(".git") == 1 then
+                builtin.git_files()
+            else
+                builtin.find_files()
+            end
         end,
         { desc = "Open a Picker for Git files" }
     }
