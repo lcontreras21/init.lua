@@ -127,4 +127,7 @@ return require('packer').startup(function(use)
 
     -- Auto Closing HTML tags
     use('windwp/nvim-ts-autotag')
+
+    -- CSV Viewer
+    use('hat0uma/csvview.nvim')
 end)

@@ -22,13 +22,6 @@ mason_lspconfig.setup({
     },
 })
 
--- Neovim 0.11 change, enable any LSP Mason has installed
-mason_lspconfig.setup_handlers({
-    function(server_name)
-        vim.lsp.enable(server_name)
-    end
-})
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 vim.lsp.config("*", {
     capabilities = capabilities

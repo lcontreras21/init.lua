@@ -52,6 +52,7 @@ local options = {
         ruler = true,
 
         showmode = false,
+        cursorline = true,
     },
     global = {
         mapleader = " ",
@@ -69,3 +70,5 @@ end
 for option, value in pairs(options.global) do
 	vim.g[option] = value
 end
+
+require('csvview').setup()
