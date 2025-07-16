@@ -1,7 +1,6 @@
 local M = {}
 
 local set_lsp_keymaps = function(bufnr)
-
     local diagnostic_goto = function(next, severity)
         severity = severity and vim.diagnostic.severity[severity] or nil
         local settings = {
@@ -17,18 +16,18 @@ local set_lsp_keymaps = function(bufnr)
 
     local keymaps = {
 
-        {"n", "gd", function() vim.lsp.buf.definition() end},
+        { "n", "gd",          function() vim.lsp.buf.definition() end },
 
-        {"n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" }},
-        {"n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" }},
-        {"n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" }},
-        {"n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" }},
+        { "n", "]e",          diagnostic_goto(true, "ERROR"),               { desc = "Next Error" } },
+        { "n", "[e",          diagnostic_goto(false, "ERROR"),              { desc = "Prev Error" } },
+        { "n", "]w",          diagnostic_goto(true, "WARN"),                { desc = "Next Warning" } },
+        { "n", "[w",          diagnostic_goto(false, "WARN"),               { desc = "Prev Warning" } },
 
-        {"n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end},
-        {"n", "<leader>vca", function() vim.lsp.buf.code_action() end},
-        {"n", "<leader>vrr", function() vim.lsp.buf.references() end},
-        {"n", "<leader>vrn", function() vim.lsp.buf.rename() end},
-        {"n", "<C-h>", function() vim.lsp.buf.signature_help() end},
+        { "n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end },
+        { "n", "<leader>vca", function() vim.lsp.buf.code_action() end },
+        { "n", "<leader>vrr", function() vim.lsp.buf.references() end },
+        { "n", "<leader>vrn", function() vim.lsp.buf.rename() end },
+        { "n", "<C-h>",       function() vim.lsp.buf.signature_help() end },
     }
     for _, key in pairs(keymaps) do
         local opts = key[4] or {}
@@ -69,6 +68,15 @@ M.on_attach = function(client, bufnr)
     -- end
 end
 
+M.on_exit = function(client, bufnr)
+    if client:supports_method("textDocument/documentHighlight", bufnr) then
+        vim.api.nvim_clear_autocmds({
+            group = document_highlight_group,
+            buffer = bufnr,
+        })
+    end
+end
+
 M.capabilities = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -80,7 +88,7 @@ M.diag_config_basic = false;
 M.diagnostics = function()
     local icons = require("lcontreras.ui.icons")
     return {
-        update_in_insert = false,  -- Show errors while in insert mode 
+        update_in_insert = false, -- Show errors while in insert mode
         signs = {
             text = {
                 [vim.diagnostic.severity.ERROR] = icons.diagnostics.ERROR,
@@ -99,17 +107,17 @@ M.diagnostics = function()
                 min = vim.diagnostic.severity.ERROR,
             },
             format = function(diagnostic)
-            	local severity = vim.diagnostic.severity[diagnostic.severity]
-            	return icons.diagnostics[severity] .. " " .. diagnostic.message
+                local severity = vim.diagnostic.severity[diagnostic.severity]
+                return icons.diagnostics[severity] .. " " .. diagnostic.message
             end,
         },
         severity_sort = true,
         float = {
-        	-- source = true,
-        	-- severity_sort = true,
-        	-- focusable = true,
-        	-- style = "minimal",
-        	-- border = "rounded",
+            -- source = true,
+            -- severity_sort = true,
+            -- focusable = true,
+            -- style = "minimal",
+            -- border = "rounded",
         },
     }
 end
