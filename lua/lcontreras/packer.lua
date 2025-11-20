@@ -126,4 +126,7 @@ return require('packer').startup(function(use)
 
     -- CSV Viewer
     use('hat0uma/csvview.nvim')
+
+    -- Icons for cmp
+    use('onsails/lspkind.nvim')
 end)
