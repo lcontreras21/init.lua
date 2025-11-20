@@ -1,5 +1,6 @@
 -- https://github.com/hrsh7th/nvim-cmp
 local cmp = require('cmp')
+local lspkind = require('lspkind')
 local snippet_engine = require('lcontreras.snippets')
 
 -- register my Snippet Engine into cmp
@@ -34,14 +35,43 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = snippet_engine.name }
-    }, {
+        { name = snippet_engine.name },
         { name = 'buffer' },
-    }),
+    }
+    ),
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
     },
+    ---@diagnostic disable-next-line: missing-fields
+    formatting = {
+        fields = { 'kind', 'abbr', 'menu' },
+        format = function(entry, vim_item)
+            vim_item.kind = lspkind.symbolic(vim_item.kind, {
+                mode = 'symbol',
+                symbol_map = { Supermaven = '󰰣' },
+            }) .. ' '
+            local maxwidth = 50
+            local ellipsis_char = '…'
+            if vim.fn.strchars(vim_item.abbr) > maxwidth then vim_item.abbr = vim.fn.strcharpart(vim_item.abbr, 0,
+                    maxwidth) .. ellipsis_char end
+            vim_item.menu = ({
+                nvim_lsp = 'LSP',
+                luasnip = 'Snip',
+                buffer = 'Buf',
+                path = 'Path',
+                async_path = 'Path',
+            })[entry.source.name]
+            return vim_item
+        end,
+    },
+    -- formatting = {
+    --     expandable_indicator = true,
+    --     fields = { 'abbr', 'kind', 'menu' },
+    --     format = function(_, vim_item)
+    --         return vim_item
+    --     end,
+    -- }
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).

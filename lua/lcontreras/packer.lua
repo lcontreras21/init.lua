@@ -11,7 +11,7 @@ return require('packer').startup(function(use)
         }
     }
 
-    -- Colorscheme 
+    -- Colorscheme
     use { "catppuccin/nvim", as = "catppuccin" }
 
     -- Abstract Syntax Tree support for everything else
@@ -98,12 +98,8 @@ return require('packer').startup(function(use)
 
     -- Obsidian Integration
     use {
-        "epwalsh/obsidian.nvim",
-        tag = "*", -- recommended, use latest release instead of latest commit
-        requires = {
-            -- Required.
-            "nvim-lua/plenary.nvim",
-        }
+        "obsidian-nvim/obsidian.nvim",
+        tag = "*",
     }
 
     -- Better Vim Marks
@@ -118,7 +114,7 @@ return require('packer').startup(function(use)
     -- Add indentation markers
     use('lukas-reineke/indent-blankline.nvim')
 
-    -- Train more vim macros 
+    -- Train more vim macros
     use {
         'm4xshen/hardtime.nvim',
         requires = { { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' } }

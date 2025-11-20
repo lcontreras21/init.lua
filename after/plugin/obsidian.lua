@@ -1,4 +1,5 @@
--- https://github.com/epwalsh/obsidian.nvim
+-- https://github.com/obsidian-nvim/obsidian.nvim
+local obsidian = require("obsidian")
 
 local config = {
     workspaces = {
@@ -43,21 +44,34 @@ local config = {
     templates = {
         folder = "Templates",
     },
+
+    -- Disable's legacy Obsidian commands
+    legacy_commands = false,
+
+    completion = {
+        -- Enables completion using nvim_cmp
+        nvim_cmp = true,
+        -- Enables completion using blink.cmp
+        blink = false,
+        -- Trigger completion at 2 chars.
+        min_chars = 2,
+        -- Set to false to disable new note creation in the picker
+        create_new = true,
+    },
+
 }
-local obsidian = require('obsidian')
 obsidian.setup(config)
 
 vim.opt.conceallevel = 1
 
--- https://www.reddit.com/r/neovim/comments/zolylk/new_to_neovim_wanting_to_use_it_for_notes/j0o9nhz/
-vim.keymap.set("n", "<leader>of", ":ObsidianFollowLink<cr>")
-vim.keymap.set("n", "<leader>os", ":ObsidianSearch<cr>")
-vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<cr>")
+
+-- TODO: move to ftplugin settings
 
 -- Set Word Wrap on .md files
-local group = vim.api.nvim_create_augroup("Markdown Wrap Settings", { clear = true })
-vim.api.nvim_create_autocmd('BufEnter', {
-    pattern = { '*.md' },
-    group = group,
-    command = 'setlocal wrap | setlocal linebreak'
-})
+-- local group = vim.api.nvim_create_augroup("Markdown Wrap Settings", { clear = true })
+-- vim.api.nvim_create_autocmd('BufEnter', {
+--     pattern = { '*.md' },
+--     group = group,
+--     command = 'setlocal wrap | setlocal linebreak'
+-- })
+--

@@ -29,7 +29,7 @@ local keymaps = {
         function()
             builtin.grep_string({ search = vim.fn.expand("<cword>>") })
         end,
-        { desc = "Open a Picker for files containing this `word`, case-sensitve" }
+        { desc = "Open a Picker for files containing this `word`, case-sensitive" }
     },
     {
         'n',
@@ -37,7 +37,7 @@ local keymaps = {
         function()
             builtin.grep_string({ search = vim.fn.expand("<cWORD>") })
         end,
-        { desc = "Open a Picker for files containing this `word`, case-insensitve" } },
+        { desc = "Open a Picker for files containing this `word`, case-insensitive" } },
     {
         'n',
         '<leader>ps',
