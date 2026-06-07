@@ -53,6 +53,7 @@ local options = {
 
         showmode = false,
         cursorline = true,
+        exrc = true,
     },
     global = {
         mapleader = " ",
@@ -71,4 +72,4 @@ for option, value in pairs(options.global) do
 	vim.g[option] = value
 end
 
-require('csvview').setup()
+vim.o.path = vim.o.path .. "/home/lcontreras/Repos/Tiger-tests/davew/"

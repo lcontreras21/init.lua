@@ -40,14 +40,6 @@ local keymaps = {
         { desc = "Open Git Status in left vertical split" }
     },
     {
-        "n",
-        "<leader>f",
-        function()
-            vim.lsp.buf.format()
-        end,
-        { desc = "Run LSP to auto format file" }
-    },
-    {
         "v",
         "<leader>f",
         function()

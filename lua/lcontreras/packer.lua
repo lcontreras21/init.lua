@@ -129,4 +129,10 @@ return require('packer').startup(function(use)
 
     -- Icons for cmp
     use('onsails/lspkind.nvim')
+
+    -- Better wrapping
+    use('rickhowe/wrapwidth')
+
+    -- Align
+    use({ 'nvim-mini/mini.align', version = '*' })
 end)

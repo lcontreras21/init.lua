@@ -42,7 +42,7 @@ local keymaps = {
         'n',
         '<leader>ps',
         function()
-            builtin.grep_string({ search = vim.fn.input("Grep > ") })
+            builtin.grep_string({ search = vim.fn.input("Grep > "), use_regex = true })
         end,
         { desc = "" }
     },
@@ -84,7 +84,10 @@ require("telescope").setup {
                 -- ["<esc>"] = actions.close
             },
         },
-        file_ignore_patterns = { 'ashp/lib/', 'ashp/bin/', 'charts/', 'static/vendors/bower_components', }
+        file_ignore_patterns = { 'ashp/lib/', 'ashp/bin/', 'charts/', 'static/vendors/bower_components', },
+        preview = {
+            treesitter = false,
+        }
     },
     extensions = {
         fzf = {}

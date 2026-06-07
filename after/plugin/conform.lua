@@ -1,20 +1,36 @@
 -- https://github.com/stevearc/conform.nvim
 
 require("conform").setup({
+    default_format_opts = {
+        lsp_format = "never",
+    },
     formatters_by_ft = {
-        go = { "goimports", "gofmt" },
-        javascript = { { "prettierd", "prettier" } },
+        go = { "gopls" },
+        javascript = { "prettierd", "prettier" },
         lua = { "stylua" },
-        python = { "isort", "autopep8" },
+        python = { "isort" },
         -- Use the "*" filetype to run formatters on all filetypes.
         -- ["*"] = { "codespell" },
+    },
+
+    formatters = {
+        isort = {
+            -- Inherit the default isort config from conform, then append your args
+            append_args = {
+                "--multi-line",
+                "VERTICAL_HANGING_INDENT", -- or -m VERTICAL_HANGING_INDENT
+                "--skip",
+                "seed/models/__init__.py", -- note: fixed typo (__init__.py)
+                "--filter-files",
+            },
+        },
     },
 })
 
 require("conform").formatters.autopep8 = {
     inherit = false,
     command = "autopep8",
-    args = { "-", "--max-line-length", "12",  "--experimental" },
+    args = { "-", "--max-line-length", "12", "--experimental" },
 }
 
 vim.api.nvim_create_user_command("Format", function(args)
@@ -28,3 +44,8 @@ vim.api.nvim_create_user_command("Format", function(args)
     end
     require("conform").format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
+
+vim.keymap.set("n", "<leader>f", function()
+    vim.print("Formatting")
+    vim.cmd.Format()
+end, { desc = "" })

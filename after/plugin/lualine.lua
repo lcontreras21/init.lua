@@ -2,7 +2,7 @@
 
 local config = {
     options = {
-        theme = 'catppuccin'
+        theme = 'catppuccin-frappe'
     },
     sections = {
         lualine_a = { 'mode' },
